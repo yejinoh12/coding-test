@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
 public class Main {
 
     static int rec_fib_count = 0;
@@ -30,12 +29,12 @@ public class Main {
 
     public static void dp_fib(int n) {
 
-        int[] f = new int[n + 1];
+        int[] f = new int[n+1];
 
         f[1] = 1;
         f[2] = 1;
 
-        for (int i = 3; i < n + 1; i++) {
+        for (int i = 3; i <= n; i++) {
             ++ dp_fib_count;
             f[i] = f[i - 1] + f[i - 2];
         }
