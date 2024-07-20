@@ -10,7 +10,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        Map<String, String> statusMap = new TreeMap<>(); // 키값은 이름이고 밸류는 상태
+        Map<String, String> statusMap = new TreeMap<>(Collections.reverseOrder()); // 키값은 이름이고 밸류는 상태
         List<String> getName = new ArrayList<>(); // 키값은 이름이고 밸류는 상태
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
@@ -25,14 +25,14 @@ public class Main {
 
         for (String str : statusMap.keySet()) {
             if (statusMap.get(str).equals("enter")) {
-                getName.add(str);
+                System.out.println(str);
             }
         }
 
-        getName.sort(Comparator.reverseOrder());
+        //getName.sort(Comparator.reverseOrder());
 
-        for (String str : getName) {
-            System.out.println(str);
-        }
+        //for (String str : getName) {
+            //System.out.println(str);
+        //}
     }
 }
