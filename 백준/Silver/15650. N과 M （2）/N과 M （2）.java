@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Main {
-
     static int n, m;
     static List<Integer> list = new ArrayList<>();
     static List<List<Integer>> answer = new ArrayList<>();
@@ -19,7 +18,7 @@ public class Main {
         n = input[0];
         m = input[1];
 
-        dfs(0);
+        dfs(1, 0 );
 
         for (List<Integer> i : answer) {
             for (int j : i) {
@@ -29,41 +28,21 @@ public class Main {
         }
     }
 
-    public static void dfs(int k) {
+    public static void dfs(int depth, int selectedCount) {
 
-        if (k == m) {
-
-            int matchCount = 0;
-            boolean findSame = false;
-            for (int i = 0; i < answer.size(); i++) {
-                for (int j = 0; j < list.size(); j++) {
-                    matchCount = 0;
-                    for (int z = 0; z < list.size(); z++) {
-                        if (answer.get(i).contains(list.get(z))){
-                            if (++matchCount == m) {
-                                findSame = true;
-                                break;
-                            }
-                        }
-                    }
-                }
+        if(depth > n){
+            if (selectedCount == m) {
+                answer.add(new ArrayList<>(list));
             }
-
-            if (!findSame) answer.add(new ArrayList<>(list));
-
             return;
         }
 
-        for (int i = 1; i <= n; i++) {
+        // 현재 숫자를 선택하는 경우
+        list.add(depth);
+        dfs(depth + 1, selectedCount + 1);
+        list.remove(list.size() - 1);
 
-            if (list.contains(i)) continue;
-
-            list.add(i);
-            dfs(k + 1);
-            list.remove(list.size() - 1);
-
-        }
-
+        // 현재 숫자를 선택하지 않는 경우
+        dfs(depth + 1, selectedCount);
     }
-
 }
