@@ -19,7 +19,7 @@ public class Main {
         n = Integer.parseInt(input[0]);
         m = Integer.parseInt(input[1]);
 
-        dfs(0);
+        dfs(0, 1);
 
         for (List<Integer> i : ans) {
             for (int j : i) {
@@ -29,20 +29,19 @@ public class Main {
         }
     }
 
-    public static void dfs(int depth) {
+    public static void dfs(int depth, int start) {
 
         if (depth == m) {
             ans.add(new ArrayList<>(list));
             return;
         }
 
-        for (int i = 1; i <= n; i++) {
+        for (int i = start; i <= n; i++) {
 
-            if (list.isEmpty() || (!list.isEmpty() && list.get(list.size() - 1) <= i)) {
-                list.add(i);
-                dfs(depth + 1);
-                list.remove(list.size() - 1);
-            }
+            list.add(i);
+            dfs(depth + 1, i);
+            list.remove(list.size() - 1);
+
         }
     }
 }
