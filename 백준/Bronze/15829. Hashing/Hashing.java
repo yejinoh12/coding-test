@@ -2,7 +2,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 
 public class Main {
 
@@ -13,10 +12,13 @@ public class Main {
         char[] input = br.readLine().toCharArray();
 
         // 'a' = 97
-        long tmp = 0;
+        long result = 0;
+        long pow = 1;
         for (int i = 0; i < input.length; i++) {
-            tmp += (input[i] - 96) * (int) Math.pow(31, i);
+            result += (input[i] - 96) * pow;
+            pow = (pow % 1234567891) * 31;
         }
-        System.out.print(tmp);
+        
+        System.out.print(result % 1234567891);
     }
 }
