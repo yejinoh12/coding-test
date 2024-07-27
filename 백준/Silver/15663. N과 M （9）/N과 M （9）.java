@@ -7,9 +7,9 @@ import java.util.List;
 public class Main {
 
     public static int n, m;
-    public static int[] number;
-    public static boolean[] v;
-    public static List<Integer> list = new ArrayList<>();
+    public static int[] num; //입력 받을 숫자 배열
+    public static int[] ans; //정답 배열
+    public static boolean[] v; //방문 여부 체크 배열
     public static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     public static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
@@ -17,20 +17,22 @@ public class Main {
 
         int[] arr = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
 
+        //초기화
         n = arr[0];
         m = arr[1];
 
-        number = new int[n];
+        num = new int[n];
+        ans = new int[m];
         v = new boolean[n];
 
         int[] inputNum = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
-        Arrays.sort(inputNum);
+        Arrays.sort(inputNum); //정렬
 
         for (int i = 0; i < n; i++) {
-            number[i] = inputNum[i];
+            num[i] = inputNum[i];
         }
 
-        dfs(0);
+        dfs(0); //함수 호출
         bw.close();
 
     }
@@ -39,7 +41,7 @@ public class Main {
 
         if (depth == m) {
 
-            for (int i : list) {
+            for (int i : ans) {
                 bw.write(i + " ");
             }
             bw.write("\n");
@@ -47,22 +49,25 @@ public class Main {
             return;
         }
 
+        /**
+         * 깊이가 한단계 깊어질 때마다 prev 초기화
+         */
+
         int prev = -1;
 
         //System.out.println(depth + " " + prev);
 
         for (int i = 0; i < n; i++) {
 
-            if (!v[i] && prev != number[i]) {
+            if (!v[i] && prev != num[i]) {
 
-                prev = number[i];
+                prev = num[i];
                 v[i] = true;
-                list.add(number[i]);
+                ans[depth] = num[i];
 
                 dfs(depth + 1);
 
                 v[i] = false;
-                list.remove(list.size() - 1);
             }
         }
     }
