@@ -14,7 +14,6 @@ public class Main {
     static int N, target;
     static int count = 0;
     static int sum = 0;
-    static int[] v;
     static int num[];
     static List<Integer> list = new ArrayList<>();
 
@@ -25,9 +24,7 @@ public class Main {
 
         N = input[0]; //숫자의 범위, 동시에 깊이가 된다. 모든 조합을 봐야하기 때문에.
         target = input[1]; //깊이가 된다.
-
         num = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
-        v = new int[N];
 
         dfs(0, 0);
         System.out.println(count);
@@ -37,27 +34,20 @@ public class Main {
     public static void dfs(int depth, int start) {
 
         if (depth == N) {
-
             return;
         }
 
-
         for (int i = start; i < N; i++) {
 
-            if (v[i] == 0) { //방문 하지 않은 경우
-
-                sum += num[i];
-                if(sum == target){
-                    //System.out.println(depth + " " + i + " " + num[i]);
-                    count++;
-                }
-
-                v[i] = 1;//방문을 했음
-                dfs(depth + 1, i + 1);
-                v[i] = 0;
-                sum -= num[i];
+            sum += num[i];
+            if (sum == target) {
+                count++;
             }
 
+            dfs(depth + 1, i + 1);
+            sum -= num[i];
         }
+
     }
 }
+
