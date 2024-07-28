@@ -1,3 +1,4 @@
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -69,20 +70,14 @@ public class Main {
 
             int mid = (low + high) / 2;
 
-            if (arr.get(mid) > target) {
+            if (arr.get(mid) >= target) {
                 high = mid - 1;
             } else if (arr.get(mid) < target) {
                 low = mid + 1;
-            } else if (arr.get(mid) == target) { //mid==target 일 경우
-                if (mid != 0 && arr.get(mid - 1) == target) { //mid가 0번 인덱스가 아니고, mid -1 이 target 이라면
-                    high = mid - 1; //범위 줄여서 다시 검사
-                } else {
-                    return mid;
-                }
             }
         }
 
-        return -1;
+        return low;
     }
 
     public static int upper_bound(List<Integer> arr, int target) {
@@ -95,17 +90,11 @@ public class Main {
 
             if (arr.get(mid) > target) {
                 high = mid - 1;
-            } else if (arr.get(mid) < target) {
+            } else if (arr.get(mid) <= target) {
                 low = mid + 1;
-            } else if (arr.get(mid) == target) { //mid==target 일 경우
-                if (mid != arr.size() - 1 && arr.get(mid + 1) == target) { //mid가 배열 마지막 원소가 아니고, 다음 원소가 target이라면
-                    low = mid + 1; //범위를 줄여서 재검사
-                } else {
-                    return mid;
-                }
             }
         }
 
-        return -1;
+        return high;
     }
 }
