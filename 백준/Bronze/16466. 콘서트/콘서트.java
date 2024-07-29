@@ -24,25 +24,18 @@ public class Main {
 
         Arrays.sort(arr); //정렬
 
-        if (arr[0] == 1) { //앞자리가 1인 경우
+        if (arr[0] == 1) {
 
-            int[] ticket = new int[(int) arr[N - 1] + 1]; //최대값 + 1 크기의 배열을 만들기
-
-            for (int i = 0; i < arr.length; i++){
-                ticket[(int) arr[i]] = 1; //arr의 값에 해당하는 티켓 인덱스에 1을 넣어주기
-            }
-
-            int k = 0;
-            int count = 0;
-            while (k < ticket.length - 1) {
-                if (ticket[++k] == 0) { //0이 나오면 출력하고
-                    count++;
-                    System.out.println(k);
+            int cnt = 0;
+            for (int i = 1; i < arr.length; i++) {
+                if (arr[i] - arr[i - 1] > 1) {
+                    cnt++;
+                    System.out.println(arr[i - 1] + 1);
                     break;
                 }
             }
 
-            if (count == 0) System.out.println(arr[N-1] + 1);
+            if(cnt == 0) System.out.println(arr[N - 1] + 1);
 
         } else {
             System.out.println(1);
