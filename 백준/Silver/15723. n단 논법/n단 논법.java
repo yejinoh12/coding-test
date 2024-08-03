@@ -1,21 +1,14 @@
 
 import java.io.*;
-import java.util.HashSet;
-import java.util.Set;
 
-//0100
-//0010
-//0001
-// TestEx 1) a->d  //a=0,b=1 ...
-// 1. graph[0]에서 1인 곳을 찾음 -> a->b true -> graph[1]로 이동
-// 2. graph[1]에서 1인 곳을 찾음 -> b->c true -> graph[2]로 이동
-// 3. graph[2]에서 1인 곳을 찾음 -> c->d true -> d를 찾았으므로 a->d는 true
+/** 
+ * 접근 방법 - 인접행렬
+ * TestEx 1) a->d (0,3)
+ 1. graph[0] 검사 0->1(a->b)
+ 2. graph[1] 검사 1->2(b->c)
+ 3. graph[2] 검사 2->3(c->d)
+ 4  d를 찾았으므로 a->d true */
 
-//a는 b이면서 c 일 수 없으나
-//a와 b가 동시에 c 일 수 있다??
-
-//a->b , a->c (X)
-//a->b , b->c (O)
 public class Main {
 
     static int[][] graph = new int[30][30];
@@ -35,10 +28,15 @@ public class Main {
             if(max < x) max = x;
             if(max < y) max = y;
 
-            graph[x - 97][y - 97] = 1;
+            graph[x - 97][y - 97] = 1; // 양방향아님 
         }
 
-        max -= 96;
+        /**
+         * 변수 max 역할 : 숫자중에서 가장 큰 숫자의 인덱스(아스키코드 - 97) 까지 확인하기 위해서 사용 
+         * 가장 큰 숫자가 'z' = 25 라면 --> for(int i = 0; i < 26; i++)
+         */
+
+        max -= 97;
         //System.out.println(max);
         //print();
 
@@ -58,12 +56,11 @@ public class Main {
 
     public static char test(int start, int find) {
 
-        //System.out.println(start);
         if (start == find) {
             return 'T';
         }
 
-        for (int i = 0; i < max; i++) {
+        for (int i = 0; i <= max; i++) {
             if (graph[start][i] == 1) {
                 if(test(i, find) == 'T') return 'T';
             }
