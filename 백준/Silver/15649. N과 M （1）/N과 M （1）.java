@@ -1,45 +1,54 @@
+
+
+//자연수 N과 M이 주어졌을 때, 아래 조건을 만족하는 길이가 M인 수열을 모두 구하는 프로그램을 작성하시오.
+// 1부터 N까지 자연수 중에서 중복 없이 M개를 고른 수열
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 
-public class Main{
+public class Main {
 
-    static int n, m;
-    static List<Integer> answer = new ArrayList<>();
+    static int N, M;
+    static int[] arr;
+    static ArrayList<Integer> ans = new ArrayList<>();
+    static boolean[] v; //방문여부
 
     public static void main(String[] args) throws IOException {
-        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        int[] array = Arrays.stream(bf.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
 
-        n = array[0]; //숫자의 범위(4일 경우 숫자의 범위는 1, 2 ,3, 4 중 하나)
-        m = array[1]; //숫자의 길이 = 트리의 깊이 (3일 경우 4개의 숫자중에서 3개 선택)
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int[] input = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
+        N = input[0];
+        M = input[1];
 
-        recursive(0); //함수 최초 호출
+        arr = new int[N];
+        v = new boolean[N];
+
+        backTracking(0);
 
     }
 
-    public static void recursive(int k) {
+    public static void backTracking(int depth){
 
-        if (k == m) { //깊이 도달 시 종료
-            for (int i : answer) {
-                System.out.print(i + " "); //answer 리스트 출력
+        //종료 조건
+        if(depth == M){
+            for(int i = 0; i < M; i++){
+                System.out.print(arr[i] + " ");
             }
             System.out.println();
             return;
+
         }
 
-        for (int i = 0; i < n; i++) {
-
-            if (answer.contains(i + 1)) continue; //answer 리스트를 돌면서 중복값 체크
-
-            answer.add(k, i + 1); //중복값이 없다면 리스트에 추가
-            recursive(k + 1); //깊이에 1을 더해 함수 호출
-
-            answer.remove(answer.size() - 1); // k == m 되고 정답 출력 후 다시 돌아온 부분 -> 마지막으로 추가했던 요소를 제거
+        for (int i = 0; i < N; i++) {
+            if (!v[i]) {
+                v[i] = true;
+                arr[depth] = i + 1;
+                backTracking(depth + 1);
+                v[i] = false;
+            }
         }
-
     }
-
 }
-
