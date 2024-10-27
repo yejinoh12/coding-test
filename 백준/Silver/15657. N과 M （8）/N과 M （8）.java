@@ -1,53 +1,52 @@
 
+
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class Main {
 
-    public static int n, m;
-    public static int[] number;
-    public static List<Integer> list = new ArrayList<>();
-    public static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    public static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    static int N, M;
+    static int[] arr, ans;
+    static StringBuilder sb = new StringBuilder();
 
     public static void main(String[] args) throws IOException {
 
-        int[] arr = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
-        n = arr[0];
-        m = arr[1];
+        int[] input = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
+        N = input[0];
+        M = input[1];
 
-        number = new int[n];
+        arr = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
+        Arrays.sort(arr);
 
-        int[] inputNum = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
-        Arrays.sort(inputNum);
+        ans = new int[M];
 
-        for (int i = 0; i < n; i++) {
-            number[i] = inputNum[i];
-        }
+        backTracking(0, 0);
 
-        dfs(0, 0);
+        bw.write(String.valueOf(sb));
+        bw.flush();
         bw.close();
 
     }
 
-    public static void dfs(int depth, int start) throws IOException{
+    static void backTracking(int index, int depth) {
 
-        if (depth == m) {
-            for(int i : list){
-                bw.write(i + " ");
+        if (depth == M) {
+            for (int i = 0; i < M; i++) {
+                sb.append(ans[i]).append(" ");
             }
-            bw.write("\n");
+            sb.append("\n");
             return;
         }
 
-        for (int i = start; i < n; i++) {
+        for (int i = index; i < N; i++) {
 
-            list.add(number[i]);
-            dfs(depth + 1, i);
-            list.remove(list.size() - 1);
+            ans[depth] = arr[i];
+            backTracking(i, depth + 1);
+
         }
     }
 }
+
