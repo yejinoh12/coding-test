@@ -1,67 +1,81 @@
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.util.ArrayDeque;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.Queue;
-import java.util.StringTokenizer;
 
 public class Main {
 
-    static int N, M;
-    static int[][] graph;
-    static int[][] v; //방문 여부 체크
-    static int[] dx = {-1, 1, 0, 0};
-    static int[] dy = {0, 0, 1, -1};
+    static int n, m;
+    static int[][] graph, visited;
+    static int[] dx = {0, 0, -1, 1};
+    static int[] dy = {-1, 1, 0, 0};
 
     public static void main(String[] args) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        N = Integer.parseInt(st.nextToken());
-        M = Integer.parseInt(st.nextToken());
-        graph = new int[N][M];
-        v = new int[N][M];
+        int[] input = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
+        n = input[0];
+        m = input[1];
 
-        for (int i = 0; i < N; i++) {
-            int[] s = Arrays.stream(br.readLine().split("")).mapToInt(Integer::parseInt).toArray();
-            for (int j = 0; j < M; j++) {
-                graph[i][j] = s[j];
+        graph = new int[n][m];
+        visited = new int[n][m];
+
+        //입력
+        for (int i = 0; i < n; i++) {
+            input = Arrays.stream(br.readLine().split("")).mapToInt(Integer::parseInt).toArray();
+            for (int j = 0; j < m; j++) {
+                graph[i][j] = input[j];
             }
         }
 
-        System.out.println(bfs(0, 0));
+        bfs(0, 0);
+
+        bw.write(graph[n - 1][m - 1] + "");
+        bw.flush();
+        bw.close();
 
     }
 
-    public static int bfs(int x, int y) {
+    static void bfs(int x, int y) {
 
-        Queue<int[]> q = new LinkedList<>();
+        Queue<int[]> q = new ArrayDeque<>();
+        q.offer(new int[]{x, y});
+        visited[x][y] = 1;
 
-        q.add(new int[]{x, y});         //큐에 호출된 좌표를 넣어주고
-        v[x][y] = 1;                    //방문 처리
+        while (!q.isEmpty()) {
 
-        while (!q.isEmpty()) {          //큐가 빌 때까지 반복
+            int[] node = q.poll();
+            x = node[0];
+            y = node[1];
 
-            int[] now = q.poll();       //큐에서 하나를 꺼내고
-            int nowX = now[0];
-            int nowY = now[1];
+            for (int i = 0; i < 4; i++) {
 
-            for(int i = 0; i < 4; i++){
-                int nextX = nowX + dx[i]; //row
-                int nextY = nowY + dy[i]; //column
+                int nx = x + dx[i];
+                int ny = y + dy[i];
 
-                if(nextX < 0 || nextY < 0 || nextX >= N || nextY >= M) continue; //범위를 벗어나는 경우
-                if(v[nextX][nextY] == 1 || graph[nextX][nextY] == 0) continue; //방문했거나, 0인 경우 경우
+                if (nx < 0 || ny < 0 || nx >= n || ny >= m) continue;
 
-                q.offer(new int[]{nextX, nextY}); //큐에 좌표를 넣고
-                graph[nextX][nextY] = graph[nowX][nowY] + 1;         //방문횟수를 누적해 간다.
-                v[nextX][nextY] = 1;              //방문했음을 체크한다.
+                if (visited[nx][ny] == 1 || graph[nx][ny] == 0) continue;
+
+                q.offer(new int[]{nx, ny});
+                visited[nx][ny] = 1;
+
+                //해당 좌표에 도달하기 위해 필요한 최소 이동 횟수
+                graph[nx][ny] = graph[x][y] + 1;
             }
         }
+    }
 
-        return graph[N-1][M-1];
+    //출력 테스트
+    static void print() {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                System.out.print(graph[i][j] + " ");
+            }
+            System.out.println();
+        }
     }
 }
